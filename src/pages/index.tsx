@@ -155,14 +155,16 @@ function SearchForm({
           placeholder="请输入搜索关键词..."
         />
         {keyword && (
-          <a
-            title="清除搜索关键词"
-            className={styles.search_form_clear}
-            onClick={() => setKey('')}
-            style={{ color: engine.color }}
-          >
-            <CloseCircleOutlined />
-          </a>
+          <div>
+            <a
+              title="清除搜索关键词"
+              className={styles.search_form_clear}
+              onClick={() => setKey('')}
+              style={{ color: engine.color }}
+            >
+              <CloseCircleOutlined />
+            </a>
+          </div>
         )}
         <button
           title="提交搜索"

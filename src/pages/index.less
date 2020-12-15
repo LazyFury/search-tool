@@ -31,27 +31,30 @@
   width: 100%;
   margin-top: 20px;
   align-items: center;
+  position: relative;
   & input {
     // width: 94%;
     flex: 1;
     box-sizing: border-box;
     line-height: 36px;
-    border-radius: 99px;
+    border-radius: 99px 0 0 99px;
     // outline: none;
     border: 1px solid #eee;
     background: #f9f9f9;
     padding: 0 1rem;
+    box-sizing: border-box;
     // margin: 2vw 3%;
   }
 }
 .search_form_clear {
-  margin-left: -40px;
+  position: relative;
+  margin-left: -30px;
 }
 .search_form_submit {
   height: 38px;
   background-color: green;
   width: 100px;
   border-radius: 0 99px 99px 0;
-  margin-left: 10px;
+  // margin-left: 10px;
   color: #fff;
 }
