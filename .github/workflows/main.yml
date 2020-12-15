@@ -36,5 +36,4 @@ jobs:
           echo test, and deploy your project.
       - name: Deploy React code to GitHub Pages
         # You may pin to the exact commit or the version.
-        # uses: amitsingh-007/deploy-to-github-pages@bb129748a26581f82d132db7ca88eac4b1651b36
-        uses: Treblex/gh-pages
+        uses: amitsingh-007/deploy-to-github-pages@bb129748a26581f82d132db7ca88eac4b1651b36
