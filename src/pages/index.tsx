@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { request, useRequest } from 'umi';
 import styles from './index.less';
 interface engine {
   name: string;
@@ -8,44 +9,24 @@ interface engine {
 }
 const search: engine[] = [
   {
-    name: 'Google',
-    link: 'https://www.google.com/search?q=',
-    logo: undefined,
-    color: '#1A73E8',
-  },
-  {
     name: 'Bing',
     link: 'https://cn.bing.com/search?q=',
-    logo: undefined,
+    logo: '',
     color: '#4e4e4e',
   },
   {
     name: 'Baidu',
     link: 'https://baidu.com/s?wd=',
-    logo: undefined,
+    logo: '',
     color: '#3385ff',
   },
-  {
-    name: 'Sogou',
-    link: 'https://www.sogou.com/web?query=',
-    logo: undefined,
-    color: '#fd6853',
-  },
-  {
-    name: '360',
-    link: 'https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=',
-    logo: undefined,
-    color: '#19b955',
-  },
-  {
-    name: 'Duck',
-    link: 'https://duckduckgo.com/?q=',
-    logo: undefined,
-    color: '#5b9e4d',
-  },
 ];
-
-const rec = [
+interface rec {
+  name: string;
+  link: string;
+  icon: string;
+}
+const rec: rec[] = [
   {
     name: 'V2ex',
     link: 'https://www.v2ex.com/',
@@ -70,24 +51,47 @@ const rec = [
     icon:
       'https://infinityicon.infinitynewtab.com/user-share-icon/837f8d4f276d80bc98900cc6b2e7e2fa.png?imageMogr2/thumbnail/260x/format/webp/blur/1x0/quality/100|imageslim',
   },
+  {
+    name: 'treblex',
+    link: 'https://treblex.github.io/',
+    icon: '',
+  },
 ];
 export default () => {
   const [current, setCurrent] = useState(
     Number(window.localStorage.getItem('current_search') || 0),
   );
-  const [engine, setEngine] = useState<engine>(search[current]);
+  const [_search, setSearch] = useState<engine[]>(search);
+  const [_rec, setRec] = useState<rec[]>(rec);
+  const [engine, setEngine] = useState<engine | undefined>(_search[0]);
 
   useEffect(() => {
-    setEngine(search[current]);
-  }, [current]);
+    request('search.json', { method: 'get' }).then(res => {
+      setSearch(res || search);
+    });
+    request('rec.json', { method: 'get' }).then(res => {
+      setRec(res || rec);
+    });
+  }, []);
+
+  useEffect(() => {
+    let engine = _search[current];
+    if (!engine) {
+      engine = _search[0];
+    }
+    setEngine(engine);
+  }, [current, _search]);
   return (
-    <div className={styles.content} style={{ backgroundColor: engine.color }}>
-      <h1 className={styles.title}>{engine.name}</h1>
+    <div
+      className={styles.content}
+      style={{ backgroundColor: engine?.color || '#444' }}
+    >
+      <h1 className={styles.title}>{engine?.name || 'Waiting'}</h1>
 
       <div className={styles.search_box}>
         <SearchEngine
-          list={search}
-          current={current}
+          list={_search}
+          engine={engine}
           callback={i => {
             setCurrent(i);
             window.localStorage.setItem('current_search', String(i));
@@ -96,17 +100,43 @@ export default () => {
         <SearchForm
           engine={engine}
           callback={k => {
-            window.open(engine.link + k);
+            window.open(engine?.link + k);
           }}
         />
+      </div>
+
+      <div className={styles.rec}>
+        <Rec list={_rec} />
       </div>
     </div>
   );
 };
 
+function Rec({ list }: { list: rec[] }) {
+  return (
+    <div className="row flex-wrap">
+      {list.map(r => {
+        return (
+          <a
+            href={r.link}
+            target="_blank"
+            key={r.link}
+            className={`col ${styles.rec_icon}`}
+          >
+            <img
+              src={r.icon || 'https://img.icons8.com/bubbles/2x/image.png'}
+            />
+            <span>{r.name}</span>
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
 function SearchEngine(props: {
   list: Array<engine>;
-  current: number;
+  engine?: engine;
   callback: (i: number) => void;
 }) {
   return (
@@ -116,7 +146,10 @@ function SearchEngine(props: {
           <a
             key={e.link}
             className={styles.search_tab}
-            style={{ color: i == props.current ? e.color : '' }}
+            style={{
+              color: e.link == props.engine?.link ? e.color : '',
+              flex: 1,
+            }}
             onClick={() => props.callback(i)}
           >
             {e.name}
@@ -132,7 +165,7 @@ function SearchForm({
   engine,
 }: {
   callback: (k: string) => void;
-  engine: engine;
+  engine?: engine;
 }) {
   const [keyword, setKey] = useState('');
   const search = (e: React.FormEvent<HTMLFormElement>) => {
@@ -160,7 +193,7 @@ function SearchForm({
               title="清除搜索关键词"
               className={styles.search_form_clear}
               onClick={() => setKey('')}
-              style={{ color: engine.color }}
+              style={{ color: engine?.color }}
             >
               x
             </a>
@@ -170,7 +203,7 @@ function SearchForm({
           title="提交搜索"
           className={styles.search_form_submit}
           type="submit"
-          style={{ backgroundColor: engine.color }}
+          style={{ backgroundColor: engine?.color }}
         >
           搜索
         </button>

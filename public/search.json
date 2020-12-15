@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Google",
+    "link": "https://www.google.com/search?q=",
+    "logo": "",
+    "color": "#1A73E8"
+  },
+  {
+    "name": "Bing",
+    "link": "https://cn.bing.com/search?q=",
+    "logo": "",
+    "color": "#4e4e4e"
+  },
+  {
+    "name": "Baidu",
+    "link": "https://baidu.com/s?wd=",
+    "logo": "",
+    "color": "#3385ff"
+  },
+  {
+    "name": "Sogou",
+    "link": "https://www.sogou.com/web?query=",
+    "logo": "",
+    "color": "#fd6853"
+  },
+  {
+    "name": "360",
+    "link": "https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=",
+    "logo": "",
+    "color": "#19b955"
+  },
+  {
+    "name": "Duck",
+    "link": "https://duckduckgo.com/?q=",
+    "logo": "",
+    "color": "#5b9e4d"
+  }
+]
