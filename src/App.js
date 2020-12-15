@@ -135,12 +135,14 @@ class App extends Component {
               })}
             </ul>
             <div className='search_from'>
-              <input 
-                  onKeyUp={this.inputKeyPress.bind(this)}
+              <form onSubmit={this.search}>
+                  <input 
+                //   onKeyUp={this.inputKeyPress.bind(this)}
                   onChange={this.handelInputChange.bind(this)}
                   placeholder='Dress keywords...'
                   value={this.state.keyword}></input>
               <button onClick={this.search.bind(this)}><i className="fa fa-search" aria-hidden="true"></i></button>
+              </form>
             </div>
 
         </div>
