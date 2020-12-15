@@ -34,6 +34,13 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-      - name: Deploy React code to GitHub Pages
-        # You may pin to the exact commit or the version.
-        uses: amitsingh-007/deploy-to-github-pages@bb129748a26581f82d132db7ca88eac4b1651b36
+      - run: npm i
+        shell: bash
+      - run: npm run build
+        shell: bash
+      - run: git --work-tree build add --all
+        shell: bash
+      - run: git --work-tree build commit -m 'deploy files'
+        shell: bash
+      - run: git push origin HEAD:gh-pages --force
+        shell: bash
