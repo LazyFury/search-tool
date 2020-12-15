@@ -1,1 +1,0 @@
-process.env.PUBLIC_URL = "/search-tool/"
