@@ -1,3 +1,4 @@
+import url from '*.svg';
 import React, { useEffect, useState } from 'react';
 import { request, useRequest } from 'umi';
 import styles from './index.less';
@@ -82,37 +83,40 @@ export default () => {
     setEngine(engine);
   }, [current, _search]);
   return (
-    <div
-      className={styles.content}
-      style={{ backgroundColor: engine?.color || '#444' }}
-    >
-      <h1 className={styles.title}>{engine?.name || 'Waiting'}</h1>
+    <div>
+      <div
+        className={styles.content}
+        style={{
+          backgroundColor: engine?.color || '#444',
+        }}
+      >
+        <h1 className={styles.title}>{engine?.name || 'Waiting'}</h1>
 
-      <div className={styles.search_box}>
-        <SearchEngine
-          list={_search}
-          engine={engine}
-          callback={i => {
-            setCurrent(i);
-            window.localStorage.setItem('current_search', String(i));
-          }}
-        />
-        <SearchForm
-          engine={engine}
-          callback={k => {
-            window.open(engine?.link + k);
-          }}
-        />
+        <div className={styles.search_box}>
+          <SearchEngine
+            list={_search}
+            engine={engine}
+            callback={i => {
+              setCurrent(i);
+              window.localStorage.setItem('current_search', String(i));
+            }}
+          />
+          <SearchForm
+            engine={engine}
+            callback={k => {
+              window.open(engine?.link + k);
+            }}
+          />
+        </div>
       </div>
-
       <div className={styles.rec}>
-        <Rec list={_rec} />
+        <Rec list={_rec} engine={engine} />
       </div>
     </div>
   );
 };
 
-function Rec({ list }: { list: rec[] }) {
+function Rec({ list, engine }: { list: rec[]; engine?: engine }) {
   return (
     <div className="row flex-wrap">
       {list.map(r => {
@@ -122,6 +126,7 @@ function Rec({ list }: { list: rec[] }) {
             target="_blank"
             key={r.link}
             className={`col ${styles.rec_icon}`}
+            style={{ color: engine?.color }}
           >
             <img
               src={r.icon || 'https://img.icons8.com/bubbles/2x/image.png'}
