@@ -1,6 +1,5 @@
-import React, { ElementRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.less';
-import { SearchOutlined, CloseCircleOutlined } from '@ant-design/icons';
 interface engine {
   name: string;
   link: string;
@@ -149,6 +148,7 @@ function SearchForm({
         <input
           value={keyword}
           title="搜索关键词"
+          required
           onChange={e => {
             setKey(e.target.value);
           }}
@@ -162,7 +162,7 @@ function SearchForm({
               onClick={() => setKey('')}
               style={{ color: engine.color }}
             >
-              <CloseCircleOutlined />
+              x
             </a>
           </div>
         )}
@@ -172,7 +172,7 @@ function SearchForm({
           type="submit"
           style={{ backgroundColor: engine.color }}
         >
-          <SearchOutlined />
+          搜索
         </button>
       </form>
     </div>
