@@ -121,18 +121,18 @@ function Rec({ list, engine }: { list: rec[]; engine?: engine }) {
     <div className="row flex-wrap">
       {list.map(r => {
         return (
-          <a
-            href={r.link}
-            target="_blank"
+          <button
+            onClick={() => window.open(r.link)}
             key={r.link}
             className={`col ${styles.rec_icon}`}
             style={{ color: engine?.color }}
+            title={r.name}
           >
             <img
               src={r.icon || 'https://img.icons8.com/bubbles/2x/image.png'}
             />
             <span>{r.name}</span>
-          </a>
+          </button>
         );
       })}
     </div>
@@ -148,17 +148,18 @@ function SearchEngine(props: {
     <div className="row flex-wrap">
       {props.list.map((e, i) => {
         return (
-          <a
+          <button
             key={e.link}
             className={styles.search_tab}
             style={{
               color: e.link == props.engine?.link ? e.color : '',
               flex: 1,
             }}
+            title={'使用' + e.name + '搜索'}
             onClick={() => props.callback(i)}
           >
             {e.name}
-          </a>
+          </button>
         );
       })}
     </div>
