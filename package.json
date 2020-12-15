@@ -1,34 +1,35 @@
 {
-  "name": "search",
-  "version": "0.1.0",
   "private": true,
-  "homepage": "/search-tool/",
-  "dependencies": {
-    "font-awesome": "^4.7.0",
-    "node-sass": "^4.11.0",
-    "react": "^16.8.6",
-    "react-cookies": "^0.1.0",
-    "react-dom": "^16.8.6",
-    "react-fontawesome": "^1.6.1",
-    "react-scripts": "2.1.8"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi generate tmp",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/pro-layout": "^6.5.0",
+    "@umijs/preset-react": "1.x",
+    "@umijs/test": "^3.3.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "umi": "^3.3.2",
+    "yorkie": "^2.0.0"
+  },
   "devDependencies": {
-    "copy-webpack-plugin": "^7.0.0",
-    "react-app-rewired": "^2.1.8"
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1"
   }
 }
